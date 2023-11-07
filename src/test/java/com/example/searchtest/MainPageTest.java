@@ -38,14 +38,6 @@ public class MainPageTest {
         System.out.println("Происходит клик на результат");
     }
 
-    public void waiting(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
-        wait.until(ExpectedConditions.and(
-                ExpectedConditions.attributeContains(By.cssSelector("h2 > a[href]"), "href", "selenium"),
-                ExpectedConditions.elementToBeClickable(By.cssSelector("h2 > a[href]"))
-        ));
-    }
-
     @Test
     @DisplayName("Тест поисковой строки Bing")
     public void searchTest() {
@@ -53,8 +45,7 @@ public class MainPageTest {
         WebElement searchField = driver.findElement(By.cssSelector("#sb_form_q"));
         searchField.sendKeys(input);
         searchField.submit();
-        waiting();
-        List<WebElement> results = driver.findElements(By.cssSelector("h2 > a[href]"));
+        List<WebElement> results = driver.findElements(By.cssSelector(":not(.b_adurl) >cite"));
         clickElement(results, 0);
         new WebDriverWait(driver, Duration.ofSeconds(10));
         String currentUrl = driver.getCurrentUrl();
